@@ -33,7 +33,7 @@ val filename = dotenv["FILENAME"] ?: "test.txt"
 const val BUFFER_SIZE = 8 * 1024
 
 // Chunk size 5 MB
-const val CHUNK_SIZE = 5000000L
+const val CHUNK_SIZE = 5L * 1024 * 1024
 
 /**
  * Checks the server's capabilities for handling partial file downloads

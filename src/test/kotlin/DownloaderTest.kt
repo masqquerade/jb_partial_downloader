@@ -3,6 +3,7 @@ import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.respond
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpStatusCode
+import io.ktor.http.headersOf
 import io.ktor.utils.io.ByteReadChannel
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.DisplayName
@@ -84,4 +85,29 @@ class DownloaderTest {
         client.close()
         targetFile.delete()
     }
+
+    @Test
+    @DisplayName("checkCapabilities returns correct info when server supports ranges")
+    fun testCheckCapabilitiesSupportsRanges() = runTest {
+        val mockEngine = MockEngine {
+            respond(
+                content = ByteReadChannel.Empty,
+                status = HttpStatusCode.OK,
+                headers = headersOf(
+                    HttpHeaders.ContentLength to listOf("1024"),
+                    HttpHeaders.AcceptRanges to listOf("bytes")
+                )
+            )
+        }
+
+        val client = HttpClient(mockEngine)
+        val info = checkCapabilities("", client)
+
+        assertEquals(1024L, info.contentLength, "Content-Length should be parsed correctly.")
+        assertTrue(info.supportsRanges, "Server should be detected as supporting ranges.")
+
+        client.close()
+    }
+
+
 }
