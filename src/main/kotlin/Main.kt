@@ -6,7 +6,6 @@ import io.ktor.http.HttpHeaders
 import io.github.cdimascio.dotenv.dotenv
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import ServerInfo
 import io.ktor.client.statement.bodyAsChannel
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.isSuccess
@@ -269,12 +268,13 @@ suspend fun downloadFileParallel(
     client: HttpClient,
     targetUrl: String,
     destFile: File,
-    contentLength: Long
+    contentLength: Long,
+    chunkSize: Long = CHUNK_SIZE
 ) {
     // I first create a .tmp file to be able to clean up if some error occurs during the process.
     val tmpFile = File("${destFile.absolutePath}.tmp")
 
-    val ranges = calculateRanges(contentLength, CHUNK_SIZE)
+    val ranges = calculateRanges(contentLength, chunkSize)
 
     RandomAccessFile(tmpFile, "rw").use {
         it.setLength(contentLength)

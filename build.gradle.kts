@@ -16,6 +16,8 @@ dependencies {
     implementation("io.ktor:ktor-client-cio:${ktor_version}")
     implementation("io.github.cdimascio:dotenv-kotlin:6.5.1")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
+    testImplementation("io.ktor:ktor-client-mock:${ktor_version}")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.10.2")
 }
 
 tasks.test {
