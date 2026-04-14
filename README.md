@@ -1,6 +1,6 @@
 # Parallel File Downloader
-
-A file downloader written in Kotlin that fetches chunks of a file in parallel using HTTP Range requests. Falls back to sequential downloading when the server doesn't support partial content.
+This is my solution for the JetBrains Data Ingestion team test task.
+This is a file downloader written in Kotlin that fetches chunks of a file in parallel using HTTP Range requests. Falls back to sequential downloading when the server doesn't support partial content.
 
 # How it works
 
